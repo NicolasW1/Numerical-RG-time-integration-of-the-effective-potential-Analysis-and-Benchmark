@@ -15,13 +15,13 @@ s_u0 = init(kernel_standard_NOALLOC!, r_params)
 m_u0 = init(kernel_mass_NOALLOC!, r_params)
 l_u0 = init(kernel_log_NOALLOC!, r_params)
 
-s_jac_sparsity = get_sparsity_pattern(s_u0, kernel_standard!, r_params);
-m_jac_sparsity = get_sparsity_pattern(m_u0, kernel_mass!, r_params);
-l_jac_sparsity = get_sparsity_pattern(l_u0, kernel_log!, r_params);
+s_jac_sparsity = get_sparsity_pattern(s_u0, kernel_standard_NOALLOC!, r_params);
+m_jac_sparsity = get_sparsity_pattern(m_u0, kernel_mass_NOALLOC!, r_params);
+l_jac_sparsity = get_sparsity_pattern(l_u0, kernel_log_NOALLOC!, r_params);
 
-s_f = ODEFunction(kernel_standard!; jac_prototype=Float64.(s_jac_sparsity));
-m_f = ODEFunction(kernel_mass!; jac_prototype=Float64.(m_jac_sparsity));
-l_f = ODEFunction(kernel_log!; jac_prototype=Float64.(l_jac_sparsity));
+s_f = ODEFunction(kernel_standard_NOALLOC!; jac_prototype=Float64.(s_jac_sparsity));
+m_f = ODEFunction(kernel_mass_NOALLOC!; jac_prototype=Float64.(m_jac_sparsity));
+l_f = ODEFunction(kernel_log_NOALLOC!; jac_prototype=Float64.(l_jac_sparsity));
 
 s_prob = ODEProblem(s_f, s_u0, (0., r_params.maxt), r_params)
 m_prob = ODEProblem(m_f, m_u0, (0., r_params.maxt), r_params)

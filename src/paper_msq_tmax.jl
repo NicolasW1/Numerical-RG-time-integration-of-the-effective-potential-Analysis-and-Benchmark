@@ -13,47 +13,47 @@ include("run_util.jl")
 res_path = joinpath(parentDirectory(@__DIR__), "results", "msq_tmax")
 
 function verify_solution(u, t, integrator)
-	ksq = (params_paper_1.Λ * exp(-t))^2
-	ksq + u[1] <= 0 || !issorted(u)
+    ksq = (params_paper_1.Λ * exp(-t))^2
+    ksq + u[1] <= 0 || !issorted(u)
 end
 affect!(integrator) = terminate!(integrator)
 
-r_kernel! = kernel_mass!;
+r_kernel! = kernel_mass_NOALLOC!;
 r_params = params_paper_1;
 
 u0 = init(r_kernel!, r_params)
 
 jac_sparsity = get_sparsity_pattern(u0, r_kernel!, r_params);
 f = ODEFunction(r_kernel!; jac_prototype=Float64.(jac_sparsity));
-prob = ODEProblem(f, u0, (0., 50.0), r_params)
+prob = ODEProblem(f, u0, (0.0, 50.0), r_params)
 cb = DiscreteCallback(verify_solution, affect!)
 
 function get_tmax(alg, Δt)
-  println("alg : $(typeof(alg).name), Δt : $Δt")
-  odeargs = Dict(:dt => Δt, :saveat => 0.1, :adaptive=>false)
-  sol = solve(prob, alg, callback=cb; odeargs...)
+    println("alg : $(typeof(alg).name), Δt : $Δt")
+    odeargs = Dict(:dt => Δt, :saveat => 0.1, :adaptive => false)
+    sol = solve(prob, alg, callback=cb; odeargs...)
 
-  sol.t[end]
+    sol.t[end]
 end
-scan_tmax(alg, Δts) = broadcast(x->get_tmax(alg, x), Δts)
+scan_tmax(alg, Δts) = broadcast(x -> get_tmax(alg, x), Δts)
 
-Δts = 10 .^ collect(range(-2,-6, length=21))
-Δtshort = 10 .^ collect(range(-2,-5, length=13))
+Δts = 10 .^ collect(range(-2, -6, length=21))
+Δtshort = 10 .^ collect(range(-2, -5, length=13))
 
 function save_to_file(name, tmaxs, Δts)
-  data = [Δts tmaxs]
+    data = [Δts tmaxs]
 
-  open(joinpath(res_path, name * ".dat"), "w") do io
-    writedlm(io, data)
-  end
+    open(joinpath(res_path, name * ".dat"), "w") do io
+        writedlm(io, data)
+    end
 
-  nothing
+    nothing
 end
 
 function run_save(name, alg, Δts)
-  tmaxs = scan_tmax(alg, Δts)
+    tmaxs = scan_tmax(alg, Δts)
 
-  save_to_file(name, tmaxs, Δts)
+    save_to_file(name, tmaxs, Δts)
 end
 
 # RadauII

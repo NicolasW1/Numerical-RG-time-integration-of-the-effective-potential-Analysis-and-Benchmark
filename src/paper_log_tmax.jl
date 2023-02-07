@@ -17,7 +17,7 @@ function verify_solution(u, t, integrator)
 end
 affect!(integrator) = terminate!(integrator)
 
-r_kernel! = kernel_log!;
+r_kernel! = kernel_log_NOALLOC!;
 r_params = params_paper_1;
 
 u0 = init(r_kernel!, r_params)

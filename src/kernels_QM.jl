@@ -9,23 +9,6 @@ struct ParameterQM
   maxt::Float64
 end
 
-function mesonFlux(e2_p, e2_s, k, p::ParameterQM)
-  Nf = 2
-  prefactor = 4π / (2π)^p.dim * k^(p.dim + 2) / p.dim
-  return prefactor * ((Nf^2 - 1) / e2_p + 1 / e2_s)
-end
-
-function quarkFlux(rho, k, p::ParameterQM)
-  prefactor = 4π / (2π)^p.dim * k^(p.dim + 2) / p.dim
-  e = k^2 + rho * p.hϕ^2
-  Nc = 3
-  Nf = 2
-  if (e >= p.μ)
-    return -4Nc * Nf * prefactor / e
-  end
-  return 0.0
-end
-
 #####################################
 ############## STD ##################
 #####################################
