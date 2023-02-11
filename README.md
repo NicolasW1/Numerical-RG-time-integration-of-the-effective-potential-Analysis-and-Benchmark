@@ -1,4 +1,4 @@
-Code writen for the publication [arXiv:2302:XXXXX](https://arxiv.org/).
+Code writen for the publication [arXiv:2302.04736](https://arxiv.org/abs/2302.04736).
 All details can be found therein.
 
 If you use this code for your own research, please cite the paper:
