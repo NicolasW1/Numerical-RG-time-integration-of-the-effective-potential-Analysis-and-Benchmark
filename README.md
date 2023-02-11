@@ -3,13 +3,13 @@ All details can be found therein.
 
 If you use this code for your own research, please cite the paper:
 ```
-@article{Grossi:2019urj,
-    author = "Grossi, Eduardo and Wink, Nicolas",
-    title = "{Resolving phase transitions with Discontinuous Galerkin methods}",
-    eprint = "1903.09503",
+@article{Ihssen:2023qaq,
+    author = "Ihssen, Friederike and Sattler, Franz R. and Wink, Nicolas",
+    title = "{Numerical RG-time integration of the effective potential: Analysis and Benchmark}",
+    eprint = "2302.04736",
     archivePrefix = "arXiv",
     primaryClass = "hep-th",
-    month = "3",
-    year = "2019"
+    month = "2",
+    year = "2023"
 }
 ```
